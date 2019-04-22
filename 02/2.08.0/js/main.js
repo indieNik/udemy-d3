@@ -29,7 +29,7 @@ d3.json('data/buildings.json').then(data => {
 
     var linearScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => { return d.height })])
-        .range([0, height]);
+        .range([height, 0]);
         
     
     var rects = g.selectAll('rect')
@@ -60,9 +60,10 @@ d3.json('data/buildings.json').then(data => {
             .attr('x', (d) => {
                 return bandScale(d.name);
             })
+            .attr("y", d => { return linearScale(d.height)})
             .attr('width', bandScale.bandwidth)
             .attr('height', (d) => {
-                return linearScale(d.height);
+                return height - linearScale(d.height);
             })
             .style('fill', 'grey');
     
